@@ -1,0 +1,98 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Coach {
+  id           Int           @id @default(autoincrement())
+  prenom       String
+  nom          String
+  email        String        @unique
+  telephone    String?
+  specialite   String
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  reservations Reservation[]
+
+  @@map("coachs")
+}
+
+model Abonne {
+  id               Int              @id @default(autoincrement())
+  prenom           String
+  nom              String
+  email            String           @unique
+  telephone        String?
+  dateInscription  DateTime         @map("date_inscription")
+  typeAbonnement   TypeAbonnement   @map("type_abonnement")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  reservations     Reservation[]
+
+  @@map("abonnes")
+}
+
+model Activite {
+  id           Int           @id @default(autoincrement())
+  code         String        @unique
+  nom          String
+  duree        Int           // durée en minutes
+  placesMax    Int           @map("places_max")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  reservations Reservation[]
+
+  @@map("activites")
+}
+
+model Reservation {
+  id         Int               @id @default(autoincrement())
+  abonneId   Int               @map("abonne_id")
+  activiteId Int               @map("activite_id")
+  coachId    Int               @map("coach_id")
+  dateHeure  DateTime          @map("date_heure")
+  statut     StatutReservation @default(RESERVEE)
+  createdAt  DateTime          @default(now()) @map("created_at")
+  updatedAt  DateTime          @updatedAt @map("updated_at")
+  abonne     Abonne            @relation(fields: [abonneId], references: [id])
+  activite   Activite          @relation(fields: [activiteId], references: [id])
+  coach      Coach             @relation(fields: [coachId], references: [id])
+
+  @@unique([abonneId, activiteId, dateHeure])
+  @@map("reservations")
+}
+
+enum TypeAbonnement {
+  MENSUEL
+  TRIMESTRIEL
+  ANNUEL
+}
+
+enum StatutReservation {
+  RESERVEE
+  EFFECTUEE
+  ANNULEE
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  COACH
+  ABONNE
+}
