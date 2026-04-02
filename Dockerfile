@@ -1,38 +1,35 @@
 # =================================================================
-# Stage 1: Build & Dependencies (Prisma Client Generation)
+# Stage 1: Build & Dependencies
 # =================================================================
-FROM node:20-alpine AS base
+# On utilise debian-slim qui est très stable avec Prisma
+FROM node:20-slim AS base
+
+# Installation d'OpenSSL (requis par Prisma)
+RUN apt-get update -y && apt-get install -y openssl
 
 WORKDIR /var/www/html
 
-# Copy package definition and lock file
 COPY package*.json ./
-
-# Install all dependencies (including devDependencies for Prisma generation)
 RUN npm install
 
-# Copy project source code
 COPY . .
 
-# Generate Prisma Client (crucial for runtime)
+# Génération du client Prisma
 RUN npx prisma generate
 
 # =================================================================
 # Stage 2: Production image
 # =================================================================
-FROM node:20-alpine
+FROM node:20-slim
+
+# On réinstalle openssl dans l'image finale
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
 
-# Copy everything from the base stage
-# (In a more optimized setup, we could copy only the necessary files)
 COPY --from=base /var/www/html /var/www/html
 
-# Expose the application port (matching the current .env)
 EXPOSE 5000
-
-# Set environment
 ENV NODE_ENV=production
 
-# The start command (runs the project using node)
 CMD ["npm", "start"]
