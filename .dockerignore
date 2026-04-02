@@ -7,5 +7,4 @@ README.md
 docker-compose.yml
 Dockerfile
 .dockerignore
-/prisma/migrations
 /tmp
