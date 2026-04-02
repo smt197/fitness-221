@@ -3,6 +3,8 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 import Routes from "./routes/index.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import cors from "cors";
+
 
 class App {
   constructor() {
@@ -18,8 +20,10 @@ class App {
   }
 
   initializeMiddlewares() {
+    this.app.use(cors());
     this.app.use(express.json());
   }
+
 
   initializeRoutes() {
     new Routes(this.app);

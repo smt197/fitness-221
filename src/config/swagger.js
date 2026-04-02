@@ -16,11 +16,13 @@ const options = {
     },
     servers: [
       {
-        url: process.env.NODE_ENV === 'production'
-          ? 'https://fitness-221.onrender.com'
-          : 'http://localhost:5000'
+        url: process.env.APP_URL || (process.env.NODE_ENV === 'production' 
+          ? 'https://fitness-221.onrender.com' 
+          : 'http://localhost:5000'),
+        description: process.env.APP_URL ? 'Production Server' : 'Local Server'
       }
     ],
+
     components: {
       schemas: {
         Coach: {
