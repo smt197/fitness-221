@@ -1,20 +1,20 @@
-# 01 - Introduction
+# 01 - Introduction : La Vision Fitness 221
 
-## 📝 Présentation du projet
-Le projet **Fitness 221** est une application web conçue pour automatiser la gestion d'un studio de fitness moderne. Inspiré par les besoins réels des centres de sport, ce système offre une plateforme centralisée pour gérer les coachs, les abonnés, les activités et surtout un flux de réservation intelligent.
+## 🌟 Le Contexte
+À l'ère de la transformation numérique, la gestion manuelle des plannings sportifs devient un frein majeur pour la rentabilité et l'image de marque des centres de fitness. Le projet **Fitness 221** naît de l'observation d'un besoin critique : **offrir une expérience utilisateur fluide tout en garantissant une gestion administrative sans faille.**
 
-## 🎯 Objectifs
-Les objectifs principaux de ce projet de fin d'études sont :
-- **Automatisation** : Simplifier le processus complexe de réservation de séances.
-- **Fiabilité** : Garantir l'intégrité des données grâce à un typage fort (Zod, Prisma) et des règles métier robustes.
-- **Sécurité** : Protéger les données sensibles via un système d'authentification JWT (JSON Web Token) et un contrôle d'accès basé sur les rôles (RBAC).
-- **Modernité** : Utiliser des technologies de pointe (Node.js, Prisma, Dokploy, Cloudflare) pour assurer une infrastructure scalable.
+## 🎯 Problématique & Solution
+Comment garantir qu'un coach n'est pas surchargé ou qu'une salle ne dépasse pas sa capacité d'accueil à 10h du matin ? 
+La solution apportée par Fitness 221 repose sur trois piliers :
+1.  **L'intelligence logicielle** : Des algorithmes de validation qui contrôlent chaque réservation à la milliseconde près.
+2.  **La sécurité absolue** : Une protection des données personnelles via des standards de chiffrement industriels (JWT).
+3.  **La résilience infra** : Une architecture Dockerisée permettant un redéploiement instantané.
 
-## 👥 Cibles
-Le système s'adresse à trois types de profils :
-1.  **Administrateur** : Gestion complète du studio (coachs, activités, utilisateurs).
-2.  **Coach** : Consultation de ses propres plannings de séances.
-3.  **Abonné** : Inscription aux activités et consultation de ses réservations.
+## 🚀 Périmètre Technique
+Ce projet met en œuvre un écosystème complet :
+-   **Backend** : Node.js & Express pour la vélocité.
+-   **Data** : PostgreSQL & Prisma pour la robustesse des données.
+-   **DevOps** : Dokploy & Cloudflare Tunnel pour une accessibilité sécurisée.
 
 ---
 [Suivant : Analyse Fonctionnelle](./02-analyse-fonctionnelle.md)
