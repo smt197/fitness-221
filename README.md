@@ -34,15 +34,16 @@ Le projet suit une architecture multicouche pour une maintenance facilitée :
 
 ```mermaid
 graph TD
-    Client[Client / Navigateur] --> Routes[Routes API]
-    Routes --> Middlewares[Middlewares (Auth, Error, Validation)]
-    Middlewares --> Controllers[Controllers (Req/Res)]
-    Controllers --> Services[Services (Logique Métier)]
-    Services --> Repositories[Repositories (Accès Data)]
-    Repositories --> Prisma[Prisma ORM]
-    Prisma --> DB[(PostgreSQL)]
-    Services -.-> Cloudinary[Cloudinary (Images)]
+    Client["Client / Navigateur"] --> Routes["Routes API"]
+    Routes --> Middlewares["Middlewares (Auth, Error, Validation)"]
+    Middlewares --> Controllers["Controllers (Req/Res)"]
+    Controllers --> Services["Services (Logique Métier)"]
+    Services --> Repositories["Repositories (Accès Data)"]
+    Repositories --> Prisma["Prisma ORM"]
+    Prisma --> DB[("PostgreSQL")]
+    Services -.-> Cloudinary["Cloudinary (Images)"]
 ```
+
 
 ### 📊 Diagramme de Relations (Données)
 
@@ -173,16 +174,17 @@ Le projet est optimisé pour être déployé sur **Dokploy** avec un support nat
 ### 🌐 Schéma de Déploiement
 ```mermaid
 graph LR
-    User[Utilisateurs Externes] -- HTTPS --> CF[Cloudflare Tunnel]
+    User["Utilisateurs Externes"] -- HTTPS --> CF["Cloudflare Tunnel"]
     
     subgraph "Infrastructure Cloud (Dokploy)"
         subgraph "Docker Container"
-            CF --> App[Node.js Engine]
-            App --> P[Prisma Client]
+            CF --> App["Node.js Engine"]
+            App --> P["Prisma Client"]
         end
-        P -- PostgreSQL Protocol --> DB[(Base de Données)]
+        P -- "PostgreSQL Protocol" --> DB[("Base de Données")]
     end
 ```
+
 
 ### 📦 Configuration Docker
 
