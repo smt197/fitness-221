@@ -157,22 +157,27 @@ Pour exposer votre serveur local sur une URL HTTPS publique et aléatoire (très
 
 ## 🚀 Déploiement Dokploy
 
-Le projet est optimisé pour être déployé sur **Dokploy**.
+Le projet est optimisé pour être déployé sur **Dokploy** avec un support natif pour **Cloudflare Tunnel**.
 
 ### 📦 Configuration Docker
-L'application utilise un **Dockerfile multi-étape** basé sur `node:20-slim` pour assurer la légèreté et la compatibilité avec le moteur Prisma (OpenSSL inclus).
+L'application utilise un **Dockerfile multi-étape** basé sur `node:20-slim`. Le binaire **`cloudflared`** est automatiquement installé dans l'image de production.
 
-### ⚙️ Variables d'Environnement requises
+### ⚙️ Variables d'Environnement (Dokploy)
 Configurez ces variables dans l'interface de Dokploy :
-- **`APP_URL`** : `http://localhost` (ou votre domaine réel). Indispensable pour la documentation Swagger.
+- **`APP_URL`** : `http://localhost` (ou votre domaine réel). Indispensable pour Swagger.
 - **`DATABASE_URL`** : URL de connexion à votre instance PostgreSQL.
 - **`PORT`** : `5000`
 - **`NODE_ENV`** : `production`
+- **`CLOUDFLARE_TUNNEL_TOKEN`** : (Optionnel) Votre token Cloudflare Zero Trust pour une URL fixe.
 
-### 🔄 Migrations Automatiques
-Le déploiement est configuré pour exécuter automatiquement `npx prisma migrate deploy` avant de lancer le serveur. Toute modification de schéma Prisma sera appliquée lors du prochain redémarrage du conteneur.
+### 🔄 Gestion des Processus (entrypoint.sh)
+Le conteneur utilise un script d'entrée qui gère trois étapes :
+1. **Migrations** : Exécution automatique de `npx prisma migrate deploy`.
+2. **Tunnel** : Lancement de `cloudflared` (génère une URL aléatoire si aucun token n'est fourni).
+3. **Application** : Démarrage du serveur Node.js.
 
-### 📚 Accès à la Documentation
-Une fois déployé, Swagger est accessible sur :
-`http://votre-domaine/api-docs`
+### 📚 Accès et Documentation
+- **URL Aléatoire** : Si vous n'utilisez pas de token, récupérez l'URL `.trycloudflare.com` dans l'onglet **Logs** de Dokploy au démarrage.
+- **Swagger** : Accessible via `http://votre-domaine-ou-tunnel/api-docs`.
+
 
