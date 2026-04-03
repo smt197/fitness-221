@@ -26,15 +26,26 @@ Ce projet est un système de gestion pour un studio de fitness, inspiré de l'ar
 
 ---
 
-## 🛠️ Architecture
+---
 
-Le projet suit une architecture multicouche pour une maintenance facilitée:
-- **Controllers**: Gestion des requêtes HTTP.
-- **Services**: Logique métier et validations.
-- **Repositories**: Interaction avec la base de données via **Prisma**.
-- **Middlewares**: Gestion globale des erreurs, validation Zod et authentification.
+## 🏗️ Architecture Technique (Logicielle)
 
-### 📊 Diagramme de Relations (UML)
+Le projet suit une architecture multicouche pour une maintenance facilitée :
+
+```mermaid
+graph TD
+    Client[Client / Navigateur] --> Routes[Routes API]
+    Routes --> Middlewares[Middlewares (Auth, Error, Validation)]
+    Middlewares --> Controllers[Controllers (Req/Res)]
+    Controllers --> Services[Services (Logique Métier)]
+    Services --> Repositories[Repositories (Accès Data)]
+    Repositories --> Prisma[Prisma ORM]
+    Prisma --> DB[(PostgreSQL)]
+    Services -.-> Cloudinary[Cloudinary (Images)]
+```
+
+### 📊 Diagramme de Relations (Données)
+
 
 ```mermaid
 classDiagram
@@ -155,11 +166,26 @@ Pour exposer votre serveur local sur une URL HTTPS publique et aléatoire (très
 
 ---
 
-## 🚀 Déploiement Dokploy
+## 🚀 Déploiement et Infrastructure
 
 Le projet est optimisé pour être déployé sur **Dokploy** avec un support natif pour **Cloudflare Tunnel**.
 
+### 🌐 Schéma de Déploiement
+```mermaid
+graph LR
+    User[Utilisateurs Externes] -- HTTPS --> CF[Cloudflare Tunnel]
+    
+    subgraph "Infrastructure Cloud (Dokploy)"
+        subgraph "Docker Container"
+            CF --> App[Node.js Engine]
+            App --> P[Prisma Client]
+        end
+        P -- PostgreSQL Protocol --> DB[(Base de Données)]
+    end
+```
+
 ### 📦 Configuration Docker
+
 L'application utilise un **Dockerfile multi-étape** basé sur `node:20-slim`. Le binaire **`cloudflared`** est automatiquement installé dans l'image de production.
 
 ### ⚙️ Variables d'Environnement (Dokploy)
