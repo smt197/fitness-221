@@ -115,6 +115,25 @@ La documentation interactive de l'API est disponible à l'adresse suivante (lors
 
 ---
 
+## 🌐 Exposition Locale (Cloudflare Tunnel)
+
+Pour exposer votre serveur local sur une URL HTTPS publique et aléatoire (très utile pour tester Swagger avec des collègues ou sur mobile) :
+
+1. **Lancer le tunnel** :
+   ```bash
+   npm run tunnel
+   ```
+
+2. **Récupérer l'URL** : Copiez l'URL se terminant par `.trycloudflare.com` générée dans votre terminal.
+
+3. **Configuration Swagger** : Pour que les tests API fonctionnent via cette URL, vous pouvez la définir dans votre `.env` :
+   ```env
+   APP_URL=https://votre-url-generee.trycloudflare.com
+   ```
+
+---
+
+
 ## 🧪 Guide de Test Rapide (Auth)
 
 1. **S'inscrire (Admin)**:
@@ -133,5 +152,27 @@ La documentation interactive de l'API est disponible à l'adresse suivante (lors
 
 3. **Accéder à une route protégée**:
    ```bash
-   curl -H "Authorization: Bearer <VOTRE_TOKEN>" http://localhost:5000/api/coachs
-   ```
+
+---
+
+## 🚀 Déploiement Dokploy
+
+Le projet est optimisé pour être déployé sur **Dokploy**.
+
+### 📦 Configuration Docker
+L'application utilise un **Dockerfile multi-étape** basé sur `node:20-slim` pour assurer la légèreté et la compatibilité avec le moteur Prisma (OpenSSL inclus).
+
+### ⚙️ Variables d'Environnement requises
+Configurez ces variables dans l'interface de Dokploy :
+- **`APP_URL`** : `http://localhost` (ou votre domaine réel). Indispensable pour la documentation Swagger.
+- **`DATABASE_URL`** : URL de connexion à votre instance PostgreSQL.
+- **`PORT`** : `5000`
+- **`NODE_ENV`** : `production`
+
+### 🔄 Migrations Automatiques
+Le déploiement est configuré pour exécuter automatiquement `npx prisma migrate deploy` avant de lancer le serveur. Toute modification de schéma Prisma sera appliquée lors du prochain redémarrage du conteneur.
+
+### 📚 Accès à la Documentation
+Une fois déployé, Swagger est accessible sur :
+`http://votre-domaine/api-docs`
+
