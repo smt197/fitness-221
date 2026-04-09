@@ -207,5 +207,3 @@ Le conteneur utilise un script d'entrée qui gère trois étapes :
 ### 📚 Accès et Documentation
 - **URL Aléatoire** : Si vous n'utilisez pas de token, récupérez l'URL `.trycloudflare.com` dans l'onglet **Logs** de Dokploy au démarrage.
 - **Swagger** : Accessible via `http://votre-domaine-ou-tunnel/api-docs`.
-
-
