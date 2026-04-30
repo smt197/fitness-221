@@ -1,8 +1,7 @@
 services:
   app:
     container_name: fitness-221-app
-    # Based on your provided GHCR pattern
-    image: ghcr.io/smt197/fitness-221:latest
+    image: smt197/fitness-221:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,7 +16,6 @@ services:
       APP_ENV: '${APP_ENV:-production}'
       NODE_ENV: 'production'
       PORT: '5000'
-      # Point to the 'db' service in the same network
       DATABASE_URL: 'postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-Serigne197}@db:5432/${POSTGRES_DB:-fitness221}?schema=public'
       JWT_SECRET: '${JWT_SECRET:-supersecretfitness2026}'
       CLOUDINARY_CLOUD_NAME: '${CLOUDINARY_CLOUD_NAME}'
