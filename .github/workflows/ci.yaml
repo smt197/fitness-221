@@ -33,7 +33,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/${{ github.repository }}
+          images: ${{ secrets.DOCKER_USERNAME }}/fitness-221
           tags: |
             type=raw,value=latest
             type=sha,format=short
@@ -82,5 +82,3 @@ jobs:
       #       echo "Note: This will not fail the deployment as the image was successfully pushed"
       #     fi
       #   timeout-minutes: 2
-
-
