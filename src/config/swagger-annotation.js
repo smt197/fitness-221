@@ -15,6 +15,76 @@
 
 // ========== AUTH ==========
 
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Inscription d'un nouvel utilisateur
+ *     tags: [Auth]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "admin@fitness221.sn"
+ *               password:
+ *                 type: string
+ *                 example: "password123"
+ *               role:
+ *                 type: string
+ *                 enum: [ADMIN, COACH, ABONNE]
+ *                 example: "ADMIN"
+ *     responses:
+ *       201:
+ *         description: Utilisateur créé avec succès
+ *       400:
+ *         description: Erreur de validation
+ *       409:
+ *         description: Email déjà utilisé
+ *
+ * /api/auth/login:
+ *   post:
+ *     summary: Connexion utilisateur
+ *     tags: [Auth]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [email, password]
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "admin@fitness221.sn"
+ *               password:
+ *                 type: string
+ *                 example: "password123"
+ *     responses:
+ *       200:
+ *         description: Connexion réussie, retourne le token JWT
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success: { type: "boolean" }
+ *                 message: { type: "string" }
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     token: { type: "string" }
+ *                     user: { $ref: '#/components/schemas/User' }
+ *       401:
+ *         description: Identifiants incorrects
+ */
 
 // ========== COACHS ==========
 
