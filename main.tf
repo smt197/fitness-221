@@ -21,6 +21,10 @@ resource "aws_instance" "ubuntu_server" {
               systemctl enable docker
               systemctl start docker
 
+              usermod -aG docker ubuntu
+
+              ln -s /usr/bin/docker /usr/local/bin/docker || true
+
                 # Vérification
               docker --version
               docker compose version
