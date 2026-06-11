@@ -64,19 +64,23 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
+          script: |            
+            # attendre que Docker soit dispo
+            until command -v docker > /dev/null 2>&1; do
+              echo "Waiting for Docker..."
+              sleep 5
+            done
+
+            # attendre que Docker soit actif
+            sudo systemctl is-active --quiet docker || sudo systemctl start docker
+
             cd ${{ secrets.SERVER_APP_PATH }}
-            
-            # Pull latest images
+
             sudo docker compose pull
-            
-            # Recreate containers with new image
             sudo docker compose up -d --force-recreate --remove-orphans
-            
-            # Clean up old images
             sudo docker image prune -f
-            
-            # Check status
             sudo docker compose ps
+
+
 
 #ssh-keygen -t rsa -b 4096 -f my-ec2-key 
