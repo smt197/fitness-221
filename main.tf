@@ -6,9 +6,12 @@ resource "aws_instance" "ubuntu_server" {
   ami           = "ami-05cf1e9f73fbad2e2"
   instance_type = "t3.micro"
 
+    associate_public_ip_address = true
+
   key_name = aws_key_pair.deployer.key_name
 
-  security_groups = [aws_security_group.ec2_sg.name]
+    vpc_security_group_ids = [aws_security_group.ec2_sg.id]
+
 
   user_data = <<-EOF
               #!/bin/bash
