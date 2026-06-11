@@ -21,7 +21,7 @@ resource "aws_instance" "ubuntu_server" {
               systemctl enable docker
               systemctl start docker
 
-              usermod -aG docker ubuntu
+              usermod -aG docker root
 
               ln -s /usr/bin/docker /usr/local/bin/docker || true
 
@@ -29,8 +29,8 @@ resource "aws_instance" "ubuntu_server" {
               docker --version
               docker compose version
                 # création d'un répertoire pour l'application
-              mkdir -p /home/ubuntu/fitness-221
-              chown ubuntu:ubuntu /home/ubuntu/fitness-221
+              mkdir -p /home/root/fitness-221
+              chown root:root /home/root/fitness-221
               EOF
 
   tags = {

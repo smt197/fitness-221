@@ -79,5 +79,4 @@ jobs:
             # Check status
             sudo docker compose ps
 
-
 #ssh-keygen -t rsa -b 4096 -f my-ec2-key 
