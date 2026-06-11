@@ -13,13 +13,12 @@ resource "aws_instance" "ubuntu_server" {
   user_data = <<-EOF
               #!/bin/bash
               apt update -y
-              apt install -y ca-certificates curl gnupg lsb-release
-
-              # Docker install
-              curl -fsSL https://get.docker.com | sh
+              apt install -y docker.io docker-compose-plugin
 
               systemctl enable docker
               systemctl start docker
+
+              sleep 10
 
               usermod -aG docker ubuntu
 
