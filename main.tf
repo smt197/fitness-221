@@ -6,11 +6,13 @@ resource "aws_instance" "ubuntu_server" {
   ami           = "ami-05cf1e9f73fbad2e2"
   instance_type = "t3.micro"
 
-    associate_public_ip_address = true
+  subnet_id = data.aws_subnet.default.id
+
+  associate_public_ip_address = true
+
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 
   key_name = aws_key_pair.deployer.key_name
-
-    vpc_security_group_ids = [aws_security_group.ec2_sg.id]
 
 
   user_data = <<-EOF
@@ -69,6 +71,12 @@ resource "aws_key_pair" "deployer" {
   key_name   = "my-ec2-key"
   public_key = file("my-ec2-key.pub")
 }
+
+data "aws_subnet" "default" {
+  default_for_az = true
+  availability_zone = "us-east-1c"
+}
+
 
 
 output "public_ip" {
