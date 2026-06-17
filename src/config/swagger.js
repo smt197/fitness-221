@@ -8,7 +8,7 @@ const options = {
     info: {
       title: "Fitness 221 API",
       version: "1.0.0",
-      description: "API documentation for the FITNESS 221 Studio Management System",
+      description: "API documentation for the FITNESS 221 Studio Management Systems",
       contact: {
         name: "Serigne Mbaye Thiam",
         email: "contact@fitness221.sn",
