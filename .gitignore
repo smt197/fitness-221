@@ -54,3 +54,14 @@ override.tf.json
 .terraform.lock.hcl
 terraform.rc
 terraform.log
+
+# Private keys / SSH Keys (CRITICAL)
+my-ec2-key
+my-ec2-key.pub
+deploy_key
+*.pem
+*.key
+
+# Ansible
+*.retry
+*.vault_pass

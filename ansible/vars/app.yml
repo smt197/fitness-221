@@ -1,0 +1,23 @@
+# ============================================
+# Variables de l'application fitness-221
+# Pour chiffrer ce fichier : ansible-vault encrypt vars/app.yml
+# ============================================
+
+# Application
+app_name: fitness-221
+app_dir: /home/ubuntu/fitness-221
+docker_image: smt197/fitness-221:latest
+app_port: 5000
+
+# Base de données
+postgres_user: postgres
+postgres_password: Serigne197
+postgres_db: fitness221
+
+# Sécurité
+jwt_secret: supersecretfitness2026
+
+# Cloudinary
+cloudinary_cloud_name: da4sfyuwq
+cloudinary_api_key: "526624865716413"
+cloudinary_api_secret: ArtJOc6gm_hX9vg644C-1eTeX9k

@@ -1,0 +1,87 @@
+---
+- name: Deploy fitness-221 application
+  hosts: all
+  become: true
+  gather_facts: false
+  vars_files:
+    - vars/app.yml
+  vars:
+    app_url: "http://{{ ansible_host }}:{{ app_port }}"
+
+  tasks:
+    # ---- Attendre que le serveur soit prêt ----
+    - name: Attendre la connexion SSH
+      wait_for_connection:
+        timeout: 300
+
+    - name: Collecter les informations système
+      setup:
+
+    - name: Attendre que Docker soit disponible
+      command: docker --version
+      register: docker_check
+      until: docker_check.rc == 0
+      retries: 30
+      delay: 10
+      changed_when: false
+
+    - name: S'assurer que Docker est démarré
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    # ---- Préparer le dossier de l'application ----
+    - name: Créer le dossier de l'application
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: "0755"
+
+    # ---- Déployer les fichiers de configuration ----
+    - name: Déployer docker-compose.yml
+      template:
+        src: templates/docker-compose.yml.j2
+        dest: "{{ app_dir }}/docker-compose.yml"
+        owner: ubuntu
+        group: ubuntu
+        mode: "0644"
+
+    - name: Déployer le fichier .env
+      template:
+        src: templates/.env.j2
+        dest: "{{ app_dir }}/.env"
+        owner: ubuntu
+        group: ubuntu
+        mode: "0600"
+
+    # ---- Lancer l'application ----
+    - name: Pull des images Docker
+      command: docker compose pull
+      args:
+        chdir: "{{ app_dir }}"
+      changed_when: true
+
+    - name: Démarrer l'application
+      command: docker compose up -d --force-recreate --remove-orphans
+      args:
+        chdir: "{{ app_dir }}"
+      changed_when: true
+
+    - name: Nettoyer les anciennes images
+      command: docker image prune -f
+      changed_when: true
+
+    # ---- Vérification ----
+    - name: Afficher les conteneurs en cours
+      command: docker compose ps
+      args:
+        chdir: "{{ app_dir }}"
+      register: compose_ps
+      changed_when: false
+
+    - name: Statut du déploiement
+      debug:
+        var: compose_ps.stdout_lines
