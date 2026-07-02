@@ -6,7 +6,7 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Fitness 221 API",
+      title: "Fitness 221 APIs",
       version: "1.0.0",
       description: "API documentation for the FITNESS 221 Studio Management System",
       contact: {
